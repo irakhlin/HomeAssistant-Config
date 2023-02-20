@@ -208,12 +208,6 @@ condition:
   - condition: state
     entity_id: !input schedule_entity
     state: "on"
-  - condition: or
-    conditions:
-      - "{{ input_pause_entities | default([]) | list | count | int(0) < 1 }}"
-      - condition: state
-        entity_id: !input pause_entities
-        state: 'off'
 
 variables:
   input_backup_bool: !input backup_bool
@@ -274,6 +268,13 @@ variables:
 
 
 action:
+  - if:
+      - condition: state
+        entity_id: !input pause_entities
+        state: 'on'
+    then: 
+      - service: script.updates_notification_script
+      - stop: Do not Have Approval to run Updates
   ########## Refresh update list ##########
   - alias: "Refresh update list - update entities"
     service: homeassistant.update_entity
