@@ -194,7 +194,10 @@ trigger:
   - id: Automations reloaded
     platform: event
     event_type: automation_reloaded
-
+  - id: Blocking Entity Changes
+    platform: state
+    entity_id: !input pause_entities
+  
 condition:
   - condition: template
     value_template: >-
